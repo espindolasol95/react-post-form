@@ -1,75 +1,73 @@
-{/*importazioni*/}
-import React,{useState}from  'react';
-import axios from 'axios'; 
- 
 
-const PostForm =()=>{
-  //dichiaro gli stati per i campi form
-  const[formData, setFormData]= useState({
-    author:'',
-    title:'',
-    body:'',
-    isPublic: false //chiedere bene su questo (non molto chiaro)
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const PostForm = () => {
+  // Stato iniziale dei campi del form
+  const [formData, setFormData] = useState({
+    author: '',
+    title: '',
+    body: '',
+    isPublic: false
   });
-}
-  const handleChange=(e)=>{
-     const { name, value, type, checked } = e.target; //gestione per gli aggiornamenti nel campo form
 
-     setFormData((prevData) => ({
+  // Gestione cambi nei campi
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value //se il capo e una checkbox usiamo cheked altrimenti value
+      [name]: type === 'checkbox' ? checked : value
     }));
-  }
+  };
 
-    //funzione per l'invio 
-     const handleSubmit = async (e) => {
+  // Gestione invio
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Invia i dati all'endpoint con POST
-      const response = await axios.post('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts',
+      const response = await axios.post(
+        'https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts',
         formData
       );
-    
 
-     //conferma
-     alert('post creato con successo!');
-     console.log('Risposta API:', response.data);
+      alert('Post creato con successo!');
+      console.log('Risposta API:', response.data);
 
-     setFormData({
+      setFormData({
         author: '',
         title: '',
         body: '',
-        isPublic: false,
+        isPublic: false
       });
-   
     } catch (error) {
       console.error('Errore durante l invio del post:', error);
-      alert('errore durante l invio del post')
-      }
+      alert('Errore durante l invio del post');
+    }
+  };
 
-
-
-    return(
-        
-        <div className="container">
-            <h1 className='mb-4 text-center'>Crea un nuovo Post</h1>
-           <form>
-              {/* Campo Autore */}
-             <div className="row mb-3">
-               <div className="col">
-                <label htmlFor="author" className="form-label">Autore</label>
-             <input
+  
+  return (
+    <div className="container">
+      <h1 className="mb-4 text-center">Crea un nuovo Post</h1>
+      <form onSubmit={handleSubmit}>
+        {/* Campo Autore */}
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="author" className="form-label">Autore</label>
+            <input
               type="text"
               className="form-control"
               id="author"
               name="author"
+              value={formData.author}
+              onChange={handleChange}
               placeholder="Inserisci il tuo nome"
-             
+              required
             />
           </div>
-        </div>   
-         {/* Campo Titolo */}
+        </div>
+
+        {/* Campo Titolo */}
         <div className="row mb-3">
           <div className="col">
             <label htmlFor="title" className="form-label">Titolo</label>
@@ -78,11 +76,14 @@ const PostForm =()=>{
               className="form-control"
               id="title"
               name="title"
+              value={formData.title}
+              onChange={handleChange}
               placeholder="Inserisci il titolo del post"
-              
+              required
             />
           </div>
         </div>
+
         {/* Campo Contenuto */}
         <div className="row mb-3">
           <div className="col">
@@ -92,11 +93,15 @@ const PostForm =()=>{
               id="body"
               name="body"
               rows="4"
-              placeholder="Scrivi il contenuto del post..."    
+              value={formData.body}
+              onChange={handleChange}
+              placeholder="Scrivi il contenuto del post..."
+              required
             ></textarea>
           </div>
-        </div> 
-        {/* Checkbox*/}
+        </div>
+
+        {/* Checkbox */}
         <div className="row mb-4">
           <div className="col">
             <div className="form-check">
@@ -105,23 +110,25 @@ const PostForm =()=>{
                 type="checkbox"
                 id="isPublic"
                 name="isPublic"
+                checked={formData.isPublic}
+                onChange={handleChange}
               />
-              <label className="form-check-label" htmlFor="isPublic">Rendi il post pubblico
+              <label className="form-check-label" htmlFor="isPublic">
+                Rendi il post pubblico
               </label>
             </div>
           </div>
         </div>
 
-        {/* Pulsante di invio */}
+        {/* Pulsante Invia */}
         <div className="row">
           <div className="col">
             <button type="submit" className="btn btn-primary">Invia</button>
           </div>
         </div>
-      </form> 
-     </div> 
-   
-    );
+      </form>
+    </div>
+  );
 };
-export default PostForm;
 
+export default PostForm;
