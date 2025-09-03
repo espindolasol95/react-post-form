@@ -1,16 +1,17 @@
 {/*importazioni*/}
-import React from 'react';
+import React,{useState}from  'react';
 import axios from 'axios'; 
  
 
 const PostForm =()=>{
   //dichiaro gli stati per i campi form
   const[formData, setFormData]= useState({
-    Author:'',
+    author:'',
     title:'',
     body:'',
     isPublic: false //chiedere bene su questo (non molto chiaro)
   });
+}
   const handleChange=(e)=>{
      const { name, value, type, checked } = e.target; //gestione per gli aggiornamenti nel campo form
 
@@ -18,8 +19,36 @@ const PostForm =()=>{
       ...prevData,
       [name]: type === 'checkbox' ? checked : value //se il capo e una checkbox usiamo cheked altrimenti value
     }));
+  }
 
-  };
+    //funzione per l'invio 
+     const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Invia i dati all'endpoint con POST
+      const response = await axios.post('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts',
+        formData
+      );
+    
+
+     //conferma
+     alert('post creato con successo!');
+     console.log('Risposta API:', response.data);
+
+     setFormData({
+        author: '',
+        title: '',
+        body: '',
+        isPublic: false,
+      });
+   
+    } catch (error) {
+      console.error('Errore durante l invio del post:', error);
+      alert('errore durante l invio del post')
+      }
+
+
 
     return(
         
