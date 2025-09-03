@@ -1,9 +1,17 @@
 {/*importazioni*/}
 import React from 'react';
-import axios from 'axios';
+import axios from 'axios'; 
  
 
 const PostForm =()=>{
+  //dichiaro gli stati per i campi form
+  const[formData, setFormData]= useState({
+    Author:'',
+    title:'',
+    body:'',
+    isPublic: false //chiedere bene su questo (non molto chiaro)
+  });
+
     return(
         
         <div className="container">
