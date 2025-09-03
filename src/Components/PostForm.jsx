@@ -11,6 +11,15 @@ const PostForm =()=>{
     body:'',
     isPublic: false //chiedere bene su questo (non molto chiaro)
   });
+  const handleChange=(e)=>{
+     const { name, value, type, checked } = e.target; //gestione per gli aggiornamenti nel campo form
+
+     setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value //se il capo e una checkbox usiamo cheked altrimenti value
+    }));
+
+  };
 
     return(
         
